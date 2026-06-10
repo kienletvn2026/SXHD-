@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz SXHD và Hóa chất</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --font-sans: Arial, Helvetica, sans-serif;
+      --color-background-primary: #ffffff;
+      --color-background-secondary: #f6f7f9;
+      --color-border-tertiary: #dde1e7;
+      --color-border-secondary: #c7ccd5;
+      --color-text-primary: #1f2937;
+      --color-text-secondary: #667085;
+      --border-radius-lg: 16px;
+      --border-radius-md: 10px;
+    }
+    body {
+      margin: 0;
+      padding: 16px;
+      background: #f3f5f8;
+      color: var(--color-text-primary);
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.06);
+    }
+    @media (max-width: 640px) {
+      body { padding: 8px; }
+      main { padding: 10px; border-radius: 12px; }
+      .tab { padding: 10px 8px !important; font-size: 13px !important; }
+      table { font-size: 12px !important; }
+      th, td { padding: 8px 6px !important; }
+    }
+  </style>
+</head>
+<body>
+<main>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.tab-bar{display:flex;gap:0;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem}
+.tab{padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--color-text-secondary);background:none;border-top:none;border-left:none;border-right:none}
+.tab.active{color:var(--color-text-primary);border-bottom:2px solid #534AB7}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem}
+.metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:1.5rem}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;text-align:center}
+.metric-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.metric-val{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:none;cursor:pointer;font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.btn:hover{background:var(--color-background-secondary)}
+.btn-primary{background:#534AB7;color:#fff;border-color:#534AB7}
+.btn-primary:hover{background:#3C3489}
+.btn-success{background:#1D9E75;color:#fff;border-color:#1D9E75}
+.btn-success:hover{background:#0F6E56}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;padding:8px 12px;font-size:12px;font-weight:500;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
+td{padding:10px 12px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
+.badge-gold{background:#FAEEDA;color:#633806}
+.badge-silver{background:#D3D1C7;color:#2C2C2A}
+.badge-green{background:#EAF3DE;color:#3B6D11}
+.badge-red{background:#FCEBEB;color:#791F1F}
+.badge-blue{background:#E6F1FB;color:#0C447C}
+.qr-box{text-align:center;padding:2rem}
+.qr-frame{display:inline-block;padding:16px;background:#fff;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary)}
+.progress-bar{height:8px;background:var(--color-background-secondary);border-radius:4px;overflow:hidden;margin:4px 0}
+.progress-fill{height:100%;border-radius:4px;transition:width 0.3s}
+.answer-opt{display:flex;align-items:center;gap:10px;padding:10px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin:8px 0;cursor:pointer;font-size:14px;color:var(--color-text-primary)}
+.answer-opt:hover{background:var(--color-background-secondary);border-color:var(--color-border-secondary)}
+.answer-opt.selected{background:#EEEDFE;border-color:#534AB7;color:#3C3489}
+.answer-opt.correct{background:#EAF3DE;border-color:#1D9E75;color:#085041}
+.answer-opt.wrong{background:#FCEBEB;border-color:#A32D2D;color:#501313}
+.radio-dot{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--color-border-secondary);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.radio-dot.filled{border-color:#534AB7;background:#534AB7}
+.radio-dot.filled::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff}
+.question-counter{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.question-text{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem;line-height:1.6}
+.congratulations{text-align:center;padding:2rem 1rem;background:linear-gradient(135deg,#EEEDFE,#E1F5EE);border-radius:var(--border-radius-lg);margin-bottom:1rem}
+.trophy{font-size:40px;margin-bottom:12px}
+.winner-card{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin:8px 0}
+.rank-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:16px;flex-shrink:0}
+.rank-1{background:#FAEEDA;color:#633806}
+.rank-2{background:#D3D1C7;color:#2C2C2A}
+input[type=text]{width:100%;padding:10px 14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-size:14px;margin-bottom:12px}
+</style>
+
+<h2 class="sr-only">Hệ thống bài kiểm tra SXHD và Hóa chất - Quiz trực tuyến với bảng xếp hạng</h2>
+
+<div style="padding:1rem 0">
+<div class="tab-bar">
+  <button class="tab active" onclick="switchTab('examiner')"><i class="ti ti-chart-bar" aria-hidden="true"></i> Người chấm</button>
+  <button class="tab" onclick="switchTab('student')"><i class="ti ti-device-mobile" aria-hidden="true"></i> Học viên</button>
+  <button class="tab" onclick="switchTab('qr')"><i class="ti ti-qrcode" aria-hidden="true"></i> QR Code</button>
+</div>
+
+<div id="panel-examiner" class="panel active">
+  <div id="congrats-box"></div>
+  <div class="metric-row">
+    <div class="metric"><div class="metric-label">Học viên đã nộp</div><div class="metric-val" id="m-total">0</div></div>
+    <div class="metric"><div class="metric-label">Điểm trung bình</div><div class="metric-val" id="m-avg">—</div></div>
+    <div class="metric"><div class="metric-label">Điểm cao nhất</div><div class="metric-val" id="m-top">—</div></div>
+    <div class="metric"><div class="metric-label">Thời gian TB</div><div class="metric-val" id="m-time">—</div></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <span style="font-size:15px;font-weight:500">Bảng xếp hạng</span>
+    <button class="btn" onclick="clearAll()"><i class="ti ti-trash" aria-hidden="true"></i> Xóa dữ liệu</button>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table id="leaderboard">
+      <thead><tr><th>Hạng</th><th>Học viên</th><th>Đơn vị</th><th>Điểm</th><th>Thời gian</th><th>Xem</th></tr></thead>
+      <tbody id="lb-body"><tr><td colspan="6" style="text-align:center;color:var(--color-text-secondary);padding:2rem">Chưa có học viên nào nộp bài</td></tr></tbody>
+    </table>
+  </div>
+  <div style="margin-top:1.5rem">
+    <div style="font-size:15px;font-weight:500;margin-bottom:1rem">Biểu đồ tỷ lệ đúng/sai theo câu</div>
+    <div style="position:relative;width:100%;height:280px">
+      <canvas id="chartAnswers" role="img" aria-label="Biểu đồ tỷ lệ đúng sai từng câu hỏi"></canvas>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:8px;font-size:12px;color:var(--color-text-secondary)">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75"></span>Đúng</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A"></span>Sai</span>
+    </div>
+  </div>
+</div>
+
+<div id="panel-student" class="panel">
+  <div id="student-welcome">
+    <div class="card">
+      <div style="font-size:16px;font-weight:500;margin-bottom:8px">Bài kiểm tra đầu vào</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem">Giám sát, xử lý SXHD & Quản lý hóa chất diệt côn trùng — 10 câu, 15 phút</div>
+      <input type="text" id="sv-name" placeholder="Họ và tên *" />
+      <input type="text" id="sv-unit" placeholder="Đơn vị công tác *" />
+      <button class="btn btn-primary" onclick="startQuiz()" style="width:100%;justify-content:center"><i class="ti ti-player-play" aria-hidden="true"></i> Bắt đầu làm bài</button>
+    </div>
+  </div>
+  <div id="student-quiz" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <span id="q-num" style="font-size:13px;font-weight:500;color:var(--color-text-secondary)">Câu 1/10</span>
+      <span id="timer-display" style="font-size:13px;font-weight:500;color:var(--color-text-primary);background:var(--color-background-secondary);padding:4px 10px;border-radius:20px"><i class="ti ti-clock" aria-hidden="true"></i> 15:00</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="q-progress" style="background:#534AB7;width:10%"></div></div>
+    <div class="card" style="margin-top:1rem">
+      <div class="question-counter" id="q-counter">Câu 1</div>
+      <div class="question-text" id="q-text"></div>
+      <div id="q-opts"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:1rem">
+      <button class="btn" id="btn-prev" onclick="prevQ()" disabled><i class="ti ti-arrow-left" aria-hidden="true"></i> Trước</button>
+      <button class="btn btn-primary" id="btn-next" onclick="nextQ()">Tiếp <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+      <button class="btn btn-success" id="btn-submit" onclick="submitQuiz()" style="display:none"><i class="ti ti-check" aria-hidden="true"></i> Hoàn thành</button>
+    </div>
+  </div>
+  <div id="student-result" style="display:none">
+    <div class="card" style="text-align:center">
+      <div style="font-size:40px;margin-bottom:8px" id="result-icon">🎉</div>
+      <div style="font-size:28px;font-weight:500;color:var(--color-text-primary)" id="result-score"></div>
+      <div style="font-size:14px;color:var(--color-text-secondary);margin:8px 0" id="result-time"></div>
+      <div style="font-size:14px;color:var(--color-text-secondary)" id="result-rank"></div>
+      <button class="btn btn-primary" onclick="reviewAnswers()" style="margin-top:1rem"><i class="ti ti-eye" aria-hidden="true"></i> Xem đáp án</button>
+    </div>
+    <div id="review-section" style="display:none;margin-top:1rem"></div>
+  </div>
+</div>
+
+<div id="panel-qr" class="panel">
+  <div class="qr-box">
+    <div style="font-size:15px;font-weight:500;margin-bottom:4px">Quét để làm bài kiểm tra</div>
+    <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1.5rem">Học viên dùng điện thoại quét QR code bên dưới</div>
+    <div class="qr-frame">
+      <canvas id="qr-canvas"></canvas>
+    </div>
+    <div style="margin-top:1.5rem;font-size:13px;color:var(--color-text-secondary)">
+      <div>Hướng dẫn sử dụng</div>
+      <div style="margin-top:8px;text-align:left;max-width:320px;margin-left:auto;margin-right:auto">
+        <div style="padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px;color:var(--color-text-primary)"><span style="color:#534AB7;font-weight:500">1.</span> Mở camera hoặc app quét QR</div>
+        <div style="padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px;color:var(--color-text-primary)"><span style="color:#534AB7;font-weight:500">2.</span> Quét mã, nhập tên & đơn vị</div>
+        <div style="padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px;color:var(--color-text-primary)"><span style="color:#534AB7;font-weight:500">3.</span> Trả lời 10 câu trong 15 phút</div>
+        <div style="padding:6px 0;font-size:13px;color:var(--color-text-primary)"><span style="color:#534AB7;font-weight:500">4.</span> Bấm "Hoàn thành" để nộp bài</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+/**
+ * CẤU HÌNH SAU KHI TRIỂN KHAI GOOGLE APPS SCRIPT
+ * 1) Dán link Web App vào APPS_SCRIPT_URL.
+ * 2) ADMIN_TOKEN phải giống token trong file Code.gs.
+ */
+const CONFIG = {
+  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxfU_8yFrQSMTcLKubG96xkNo59OW-FlJ2vvYg6O8bZCZw5p12GIlebE_P1V2ELltRN/exec",
+  ADMIN_TOKEN: "CHANGE_ME_123"
+};
+
+const QUESTIONS = [
+  {q:"Văn bản nào thay thế Luật Phòng, chống bệnh truyền nhiễm 2007 từ ngày 01/7/2026?",opts:["Luật Hóa chất 2025","Luật Phòng bệnh số 114/2025/QH15","Nghị định 91/2016/NĐ-CP","Thông tư 05/2026/TT-BYT"],ans:1},
+  {q:"Trong giai đoạn trước 01/7/2026, chế độ báo cáo bệnh truyền nhiễm chủ yếu căn cứ theo:",opts:["Thông tư 54/2015/TT-BYT","Thông tư 05/2026/TT-BYT","Nghị định 342/2025/NĐ-CP","Luật khám chữa bệnh"],ans:0},
+  {q:"Muỗi truyền bệnh SXHD chủ yếu ở Việt Nam là:",opts:["Anopheles dirus","Culex quinquefasciatus","Aedes aegypti","Aedes albopictus"],ans:2},
+  {q:"Khi nhận thông tin ca SXHD nghi ngờ tại cộng đồng, việc đầu tiên của trạm y tế là:",opts:["Phun hóa chất toàn xã/phường ngay lập tức","Tiếp nhận, xác minh thông tin ca bệnh và địa chỉ nguy cơ","Chờ đủ 02 ca mới báo cáo","Chỉ truyền thông trên loa phát thanh"],ans:1},
+  {q:"Can thiệp nền tảng trong phòng chống SXHD là:",opts:["Vắc xin dự phòng","Diệt lăng quăng/bọ gậy và loại bỏ nơi sinh sản của muỗi","Phun hóa chất hằng ngày ở mọi nơi","Cách ly người bệnh tại nhà 21 ngày"],ans:1},
+  {q:"TT 05/2026/TT-BYT liên quan trực tiếp đến nội dung nào?",opts:["Danh mục hóa chất không được sử dụng và hóa chất nguy hiểm phải công bố thông tin trong chế phẩm diệt côn trùng, diệt khuẩn","Hướng dẫn chẩn đoán SXHD","Quy trình tiêm chủng mở rộng","Quy định giá dịch vụ khám bệnh"],ans:0},
+  {q:"Trường hợp vượt khả năng xã/phường, xã/phường cần:",opts:["Chờ hết tháng mới báo cáo","Báo cáo cấp trên, tham mưu UBND và đề xuất hỗ trợ nguồn lực từ tuyến tỉnh","Tự ý mua hóa chất không rõ nguồn","Dừng giám sát ca mới"],ans:1},
+  {q:"Tính lượng hóa chất P 55% w/v và nước sạch cần cho phun ULV trong nhà với liều pha 5 ml/50m³ xử lý 300m³:",opts:["30ml hóa chất và 300ml nước sạch","30ml hóa chất và 27ml nước sạch","3ml hóa chất và 30ml nước sạch","3ml hóa chất và 27ml nước sạch"],ans:3},
+  {q:"Tính lượng hóa chất F 78.8 g/L hoạt chất và nước sạch cho phun ULV trong nhà với liều pha 1:100 xử lý 300m³:",opts:["5ml hóa chất và 300ml nước sạch","5ml hóa chất và 150ml nước sạch","10ml hóa chất và 990ml nước sạch","10ml hóa chất và 1000ml nước sạch"],ans:2},
+  {q:"Có thể mua 2 sản phẩm hóa chất diệt côn trùng để phối trộn tăng hiệu quả phun không?",opts:["Có","Tùy thuộc loại hóa chất","Không","Không rõ"],ans:2}
+];
+
+let currentQ=0, userAnswers=Array(10).fill(-1), startTime=0, timerInterval=null;
+let submissions=[];
+let chartInstance=null;
+
+function apiConfigured(){
+  return CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.includes("PASTE_APPS_SCRIPT");
+}
+
+function safeText(v){
+  return String(v ?? "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function jsonp(params){
+  return new Promise((resolve, reject)=>{
+    if(!apiConfigured()){
+      reject(new Error("Chưa cấu hình APPS_SCRIPT_URL"));
+      return;
+    }
+    const cb = "quiz_cb_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+    const query = new URLSearchParams({...params, callback: cb, _: Date.now()});
+    const script = document.createElement("script");
+    const timeout = setTimeout(()=>{
+      cleanup();
+      reject(new Error("Không nhận được phản hồi từ Google Apps Script"));
+    }, 15000);
+
+    function cleanup(){
+      clearTimeout(timeout);
+      try{ delete window[cb]; }catch(e){ window[cb]=undefined; }
+      if(script.parentNode) script.parentNode.removeChild(script);
+    }
+
+    window[cb] = data => {
+      cleanup();
+      if(data && data.ok === false) reject(new Error(data.error || "Lỗi API"));
+      else resolve(data);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("Không tải được Apps Script. Kiểm tra link Web App và quyền truy cập."));
+    };
+    script.src = CONFIG.APPS_SCRIPT_URL + (CONFIG.APPS_SCRIPT_URL.includes("?") ? "&" : "?") + query.toString();
+    document.body.appendChild(script);
+  });
+}
+
+async function loadSubmissions(){
+  if(apiConfigured()){
+    const res = await jsonp({action:"list"});
+    submissions = Array.isArray(res.submissions) ? res.submissions : [];
+  } else {
+    submissions = JSON.parse(localStorage.getItem('quiz_submissions')||'[]');
+  }
+  return submissions;
+}
+
+async function saveSubmission(sub){
+  if(apiConfigured()){
+    await jsonp({
+      action:"submit",
+      name: sub.name,
+      unit: sub.unit,
+      score: sub.score,
+      time: sub.time,
+      answers: JSON.stringify(sub.answers)
+    });
+    await loadSubmissions();
+  } else {
+    submissions.push(sub);
+    localStorage.setItem('quiz_submissions',JSON.stringify(submissions));
+  }
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+  document.getElementById(`panel-${tab}`).classList.add('active');
+  if(tab==='examiner'){loadAndRender();}
+  if(tab==='qr'){renderQR();}
+}
+
+function startQuiz(){
+  const name=document.getElementById('sv-name').value.trim();
+  const unit=document.getElementById('sv-unit').value.trim();
+  if(!name||!unit){alert('Vui lòng nhập đầy đủ họ tên và đơn vị!');return;}
+  currentQ=0;userAnswers=Array(10).fill(-1);
+  document.getElementById('student-welcome').style.display='none';
+  document.getElementById('student-quiz').style.display='block';
+  document.getElementById('student-result').style.display='none';
+  startTime=Date.now();
+  startTimer();
+  renderQuestion();
+}
+
+function startTimer(){
+  clearInterval(timerInterval);
+  let remaining=900;
+  timerInterval=setInterval(()=>{
+    remaining--;
+    if(remaining<=0){clearInterval(timerInterval);submitQuiz();}
+    const m=Math.floor(remaining/60).toString().padStart(2,'0');
+    const s=(remaining%60).toString().padStart(2,'0');
+    document.getElementById('timer-display').innerHTML=`<i class="ti ti-clock"></i> ${m}:${s}`;
+    if(remaining<=60)document.getElementById('timer-display').style.color='#E24B4A';
+  },1000);
+}
+
+function renderQuestion(){
+  const q=QUESTIONS[currentQ];
+  document.getElementById('q-num').textContent=`Câu ${currentQ+1}/10`;
+  document.getElementById('q-counter').textContent=`Câu ${currentQ+1}`;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('q-progress').style.width=`${((currentQ+1)/10)*100}%`;
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML='';
+  q.opts.forEach((opt,i)=>{
+    const div=document.createElement('div');
+    div.className='answer-opt'+(userAnswers[currentQ]===i?' selected':'');
+    div.onclick=()=>selectAnswer(i);
+    div.innerHTML=`<div class="radio-dot${userAnswers[currentQ]===i?' filled':''}"></div><span>${['A','B','C','D'][i]}. ${safeText(opt)}</span>`;
+    opts.appendChild(div);
+  });
+  document.getElementById('btn-prev').disabled=currentQ===0;
+  document.getElementById('btn-next').style.display=currentQ<9?'inline-flex':'none';
+  document.getElementById('btn-submit').style.display=currentQ===9?'inline-flex':'none';
+}
+
+function selectAnswer(i){ userAnswers[currentQ]=i;renderQuestion(); }
+function prevQ(){if(currentQ>0){currentQ--;renderQuestion();}}
+function nextQ(){if(currentQ<9){currentQ++;renderQuestion();}}
+
+async function submitQuiz(){
+  clearInterval(timerInterval);
+  const name=document.getElementById('sv-name').value.trim();
+  const unit=document.getElementById('sv-unit').value.trim();
+  const elapsed=Math.floor((Date.now()-startTime)/1000);
+  let score=0;
+  userAnswers.forEach((a,i)=>{if(a===QUESTIONS[i].ans)score++;});
+  const sub={name,unit,score,time:elapsed,answers:[...userAnswers],ts:Date.now()};
+
+  const submitBtn = document.getElementById('btn-submit');
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Đang nộp bài...";
+
+  try{
+    await saveSubmission(sub);
+    document.getElementById('student-quiz').style.display='none';
+    document.getElementById('student-result').style.display='block';
+    const mm=Math.floor(elapsed/60),ss=(elapsed%60).toString().padStart(2,'0');
+    document.getElementById('result-score').textContent=`${score}/10 điểm`;
+    document.getElementById('result-time').textContent=`Thời gian làm bài: ${mm} phút ${ss} giây`;
+    document.getElementById('result-icon').textContent=score>=8?'🏆':score>=6?'👍':'📝';
+    const sorted=[...submissions].sort((a,b)=>b.score-a.score||(a.time-b.time));
+    const rank=sorted.findIndex(s=>Number(s.ts)===Number(sub.ts) || (s.name===name && Number(s.time)===elapsed && Number(s.score)===score))+1;
+    document.getElementById('result-rank').textContent=rank>0 ? `Xếp hạng tạm thời: #${rank} / ${submissions.length}` : `Đã nộp bài thành công`;
+  } catch(err){
+    alert("Không nộp được bài: " + err.message + "
+Nếu chưa cấu hình Apps Script, hệ thống sẽ cần link Web App trước khi dùng online.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<i class="ti ti-check"></i> Hoàn thành';
+  }
+}
+
+function reviewAnswers(){
+  const sec=document.getElementById('review-section');
+  sec.style.display=sec.style.display==='none'?'block':'none';
+  if(sec.innerHTML!=='')return;
+  sec.innerHTML=QUESTIONS.map((q,i)=>{
+    const ua=userAnswers[i];const correct=q.ans;const isRight=ua===correct;
+    return `<div class="card" style="margin-bottom:0.75rem">
+      <div style="font-size:13px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:8px">
+        <span class="badge ${isRight?'badge-green':'badge-red'}">${isRight?'✓ Đúng':'✗ Sai'}</span> Câu ${i+1}
+      </div>
+      <div style="font-size:13px;color:var(--color-text-primary);margin-bottom:8px">${safeText(q.q)}</div>
+      ${q.opts.map((o,j)=>`<div style="padding:6px 10px;border-radius:6px;margin:4px 0;font-size:13px;background:${j===correct?'#EAF3DE':j===ua&&!isRight?'#FCEBEB':'var(--color-background-secondary)'};color:${j===correct?'#085041':j===ua&&!isRight?'#501313':'var(--color-text-secondary)'}">
+        ${['A','B','C','D'][j]}. ${safeText(o)}${j===correct?' ✓':''}
+      </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+async function loadAndRender(){
+  const body=document.getElementById('lb-body');
+  body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--color-text-secondary);padding:2rem">Đang tải dữ liệu...</td></tr>';
+  try{
+    await loadSubmissions();
+    renderLeaderboard();
+    renderChart();
+  }catch(err){
+    body.innerHTML=`<tr><td colspan="6" style="text-align:center;color:#A32D2D;padding:2rem">Không tải được dữ liệu: ${safeText(err.message)}</td></tr>`;
+  }
+}
+
+function renderLeaderboard(){
+  const sorted=[...submissions].sort((a,b)=>Number(b.score)-Number(a.score)||(Number(a.time)-Number(b.time)));
+  const body=document.getElementById('lb-body');
+  document.getElementById('m-total').textContent=sorted.length || 0;
+  document.getElementById('m-avg').textContent=sorted.length ? (sorted.reduce((s,x)=>s+Number(x.score),0)/sorted.length).toFixed(1) : '—';
+  document.getElementById('m-top').textContent=sorted.length ? sorted[0].score+'/10' : '—';
+  const avgT=sorted.length ? Math.round(sorted.reduce((s,x)=>s+Number(x.time),0)/sorted.length) : 0;
+  document.getElementById('m-time').textContent=sorted.length ? `${Math.floor(avgT/60)}:${(avgT%60).toString().padStart(2,'0')}` : '—';
+
+  if(!sorted.length){
+    body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--color-text-secondary);padding:2rem">Chưa có học viên nào nộp bài</td></tr>';
+    document.getElementById('congrats-box').innerHTML = apiConfigured() ? '' : '<div class="card" style="color:#A32D2D">Chưa cấu hình Apps Script. Dữ liệu hiện chỉ lưu thử nghiệm trên trình duyệt này.</div>';
+    return;
+  }
+
+  body.innerHTML=sorted.map((s,i)=>{
+    const m=Math.floor(Number(s.time)/60),ss=(Number(s.time)%60).toString().padStart(2,'0');
+    const rankBadge=i===0?'<span class="badge badge-gold">🥇 #1</span>':i===1?'<span class="badge badge-silver">🥈 #2</span>':`<span style="color:var(--color-text-secondary);font-size:13px">#${i+1}</span>`;
+    return `<tr><td>${rankBadge}</td><td style="font-weight:500">${safeText(s.name)}</td><td style="color:var(--color-text-secondary)">${safeText(s.unit)}</td>
+    <td><span class="badge ${Number(s.score)>=8?'badge-green':Number(s.score)>=6?'badge-blue':'badge-red'}">${safeText(s.score)}/10</span></td>
+    <td>${m}:${ss}</td>
+    <td><button class="btn" style="padding:4px 10px;font-size:12px" onclick="showDetail('${safeText(s.ts)}')"><i class="ti ti-eye" aria-hidden="true"></i></button></td></tr>`;
+  }).join('');
+  renderCongrats(sorted);
+}
+
+function renderCongrats(sorted){
+  const box=document.getElementById('congrats-box');
+  if(sorted.length<1){box.innerHTML='';return;}
+  const top2=sorted.slice(0,Math.min(2,sorted.length));
+  box.innerHTML=`<div class="congratulations" style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary)">
+    <div style="font-size:20px;margin-bottom:4px">🎉</div>
+    <div style="font-size:15px;font-weight:500;margin-bottom:12px">Chúc mừng học viên xuất sắc!</div>
+    ${top2.map((s,i)=>{
+      const m=Math.floor(Number(s.time)/60),ss=(Number(s.time)%60).toString().padStart(2,'0');
+      return `<div class="winner-card">
+        <div class="rank-circle ${i===0?'rank-1':'rank-2'}">${i===0?'🥇':'🥈'}</div>
+        <div style="flex:1">
+          <div style="font-weight:500;font-size:14px">${safeText(s.name)}</div>
+          <div style="font-size:12px;color:var(--color-text-secondary)">${safeText(s.unit)}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-weight:500;font-size:15px;color:${i===0?'#633806':'#2C2C2A'}">${safeText(s.score)}/10</div>
+          <div style="font-size:12px;color:var(--color-text-secondary)">${m}:${ss}</div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function showDetail(ts){
+  const sub=submissions.find(s=>String(s.ts)===String(ts));
+  if(!sub)return;
+  const answers = Array.isArray(sub.answers) ? sub.answers : JSON.parse(sub.answers || "[]");
+  alert(`${sub.name} — ${sub.score}/10 điểm
+Đáp án: ${answers.map((a,i)=>Number(a)===QUESTIONS[i].ans?'✓':'✗').join(' ')}`);
+}
+
+function renderChart(){
+  const ctx=document.getElementById('chartAnswers');
+  if(!ctx)return;
+  const correctCounts=Array(10).fill(0);
+  const wrongCounts=Array(10).fill(0);
+  submissions.forEach(s=>{
+    const answers = Array.isArray(s.answers) ? s.answers : JSON.parse(s.answers || "[]");
+    answers.forEach((a,i)=>{
+      if(Number(a)===QUESTIONS[i].ans)correctCounts[i]++;
+      else wrongCounts[i]++;
+    });
+  });
+  if(chartInstance){chartInstance.destroy();}
+  chartInstance=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:Array.from({length:10},(_,i)=>`Câu ${i+1}`),
+      datasets:[
+        {label:'Đúng',data:correctCounts,backgroundColor:'#1D9E75'},
+        {label:'Sai',data:wrongCounts,backgroundColor:'#E24B4A'}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{stacked:true,ticks:{font:{size:11}}},y:{stacked:true,beginAtZero:true,ticks:{stepSize:1}}}
+    }
+  });
+}
+
+async function clearAll(){
+  if(!confirm('Xóa toàn bộ dữ liệu bài làm?'))return;
+  if(apiConfigured()){
+    const token = prompt("Nhập mã quản trị để xóa dữ liệu:");
+    if(!token) return;
+    try{
+      await jsonp({action:"clear", token});
+      await loadAndRender();
+      alert("Đã xóa dữ liệu trên Google Sheet.");
+    }catch(err){
+      alert("Không xóa được dữ liệu: " + err.message);
+    }
+  }else{
+    submissions=[];localStorage.removeItem('quiz_submissions');renderLeaderboard();renderChart();
+  }
+}
+
+function renderQR(){
+  const url=window.location.href.split("#")[0];
+  QRCode.toCanvas(document.getElementById('qr-canvas'),url,{width:220,margin:2},()=>{});
+}
+
+loadAndRender();
+</script>
+
+
+</main>
+</body>
+</html>
